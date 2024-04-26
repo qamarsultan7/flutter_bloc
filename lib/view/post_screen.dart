@@ -33,7 +33,22 @@ class _PostScreenState extends State<PostScreen> {
             return ListView.builder(
                 itemCount: state.postList.length,
                 itemBuilder: (context, index) {
-                  return Text(index.toString());
+                  return Card(
+                    color: Colors.blueAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                              textAlign: TextAlign.justify,
+                              state.postList[index].name.toString()),
+                          Text(
+                              textAlign: TextAlign.justify,
+                              state.postList[index].body.toString())
+                        ],
+                      ),
+                    ),
+                  );
                 });
           default:
             return const Text('Something Went Wrong');

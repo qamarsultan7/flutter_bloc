@@ -1,40 +1,32 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter_blo/Models/post_model.dart';
 import 'package:http/http.dart' as http;
 
-class PostRepository {
+class PostApiRepository {
   Future<List<PostModel>> fetchPost() async {
     try {
       final response = await http
-          .get(Uri.parse('https://jsonplaceholder.typicode.com/posts'))
-          .timeout(const Duration(seconds: 10));
-      final body = json.decode(response.body) as List;
-      if (kDebugMode) {
-        print(response.statusCode.toString());
-        print(body);
-      }
-
+          .get(Uri.parse('https://jsonplaceholder.typicode.com/comments'));
       if (response.statusCode == 200) {
-        return body.map((dynamic json) {
-          final map = json as Map<String, dynamic>;
+        final body = json.decode(response.body) as List;
+        return body.map((json) {
           return PostModel(
-            postId: map['userId'] as int,
-            id: map['id'] as int,
-            email: map['email'] as String,
-            body: map['body'] as String,
-          );
+              postId: json['postId'] as int,
+              id: json['id'] as int,
+              name: json['name'] as String,
+              body: json['body'] as String);
         }).toList();
+      } else {
+        return [];
       }
     } on SocketException {
       await Future.delayed(const Duration(milliseconds: 1800));
       throw Exception('No Internet Connection');
     } on TimeoutException {
-      throw Exception('');
+      throw Exception('Time OUt');
     }
-
-    throw Exception('error fetching data');
   }
 }

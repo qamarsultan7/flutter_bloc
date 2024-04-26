@@ -10,7 +10,7 @@ part 'get_api_event.dart';
 part 'get_api_state.dart';
 
 class GetApiBloc extends Bloc<GetApiEvent, GetApiState> {
-  PostRepository postApiRepository = PostRepository();
+  PostApiRepository postApiRepository = PostApiRepository();
   GetApiBloc() : super(const GetApiState()) {
     on<FetchPostsEvent>(_fetchApi);
   }
