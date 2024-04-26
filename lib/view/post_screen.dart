@@ -19,26 +19,26 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => GetApiBloc(),
-      child: Scaffold(
-        body: BlocBuilder<GetApiBloc, GetApiState>(builder: (context, state) {
-          switch (state.postStatus) {
-            case PostStatus.loading:
-              return const Center(child: CircularProgressIndicator());
-            case PostStatus.failed:
-              return Center(child: Text(state.message));
-            case PostStatus.success:
-              return ListView.builder(
-                  itemCount: state.postList.length,
-                  itemBuilder: (context, index) {
-                    return Text(index.toString());
-                  });
-            default:
-              return const Text('Something Went Wrong');
-          }
-        }),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('data'),
       ),
+      body: BlocBuilder<GetApiBloc, GetApiState>(builder: (context, state) {
+        switch (state.postStatus) {
+          case PostStatus.loading:
+            return const Center(child: CircularProgressIndicator());
+          case PostStatus.failed:
+            return Center(child: Text(state.message));
+          case PostStatus.success:
+            return ListView.builder(
+                itemCount: state.postList.length,
+                itemBuilder: (context, index) {
+                  return Text(index.toString());
+                });
+          default:
+            return const Text('Something Went Wrong');
+        }
+      }),
     );
   }
 }
